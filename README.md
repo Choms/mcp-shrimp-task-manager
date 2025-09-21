@@ -1,143 +1,261 @@
-# MCP 蝦米任務管理器
+[🇺🇸 English](README.md) | [🇩🇪 Deutsch](docs/de/README.md) | [🇪🇸 Español](docs/es/README.md) | [🇫🇷 Français](docs/fr/README.md) | [🇮🇹 Italiano](docs/it/README.md) | [🇮🇳 हिन्दी](docs/hi/README.md) | [🇰🇷 한국어](docs/ko/README.md) | [🇧🇷 Português](docs/pt/README.md) | [🇷🇺 Русский](docs/ru/README.md) | [🇨🇳 中文](docs/zh/README.md)
 
-基於 Model Context Protocol (MCP)的任務管理系統，幫助 Agent 有效管理和執行任務。
+# MCP Shrimp Task Manager
 
-## 功能特點
+> 🦐 **Intelligent task management for AI-powered development** - Break down complex projects into manageable tasks, maintain context across sessions, and accelerate your development workflow.
 
-1. **任務規劃與分析**：幫助 Agent 理解和分析複雜任務
-2. **任務拆分**：將大型任務拆分為可管理的小任務
-3. **依賴管理**：處理任務間的依賴關係，確保正確的執行順序
-4. **執行追蹤**：監控任務執行進度和狀態
-5. **任務驗證**：確保任務符合預期要求
+<div align="center">
+  
+[![Shrimp Task Manager Demo](docs/yt.png)](https://www.youtube.com/watch?v=Arzu0lV09so)
 
-## 任務管理工作流程
+**[Watch Demo Video](https://www.youtube.com/watch?v=Arzu0lV09so)** • **[Quick Start](#-quick-start)** • **[Documentation](#-documentation)**
 
-本系統提供了完整的任務工作流程：
+[![smithery badge](https://smithery.ai/badge/@cjo4m06/mcp-shrimp-task-manager)](https://smithery.ai/server/@cjo4m06/mcp-shrimp-task-manager)
+<a href="https://glama.ai/mcp/servers/@cjo4m06/mcp-shrimp-task-manager"><img width="380" height="200" src="https://glama.ai/mcp/servers/@cjo4m06/mcp-shrimp-task-manager/badge" alt="Shrimp Task Manager MCP server" /></a>
 
-1. **開始規劃 (plan_task)**：分析任務問題，確定任務範圍
-2. **分析問題 (analyze_task)**：深入分析，檢查現有代碼庫避免重複
-3. **反思構想 (reflect_task)**：批判性審查分析結果，確保方案完善
-4. **拆分任務 (split_tasks)**：將大任務拆分為小任務，建立依賴關係
-5. **列出任務 (list_tasks)**：查看所有任務及其狀態
-6. **執行任務 (execute_task)**：執行特定任務
-7. **檢驗任務 (verify_task)**：檢查任務完成情況
-8. **完成任務 (complete_task)**：標記任務完成並提供報告
+</div>
 
-## 任務依賴關係
+## 🚀 Quick Start
 
-系統支持兩種方式指定任務依賴：
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
+- MCP-compatible AI client (Claude Code, etc.)
 
-1. **通過任務名稱**（推薦）：使用任務名稱直接引用依賴任務，更直觀易讀
+### Installation
 
-   ```json
-   {
-     "name": "實現前端表單",
-     "dependencies": ["設計UI界面", "定義API規格"]
-   }
-   ```
+#### Installing Claude Code
 
-2. **通過任務 ID**：使用任務的唯一標識符，適用於需要精確引用的場景
-   ```json
-   {
-     "name": "部署應用",
-     "dependencies": ["a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"]
-   }
-   ```
-
-這種靈活的依賴指定方式讓您可以在同一批次創建的任務間建立依賴關係，無需預先知道任務 ID。
-
-## 安裝與使用
-
+**Windows 11 (with WSL2):**
 ```bash
-# 安裝依賴
-npm install
+# First, ensure WSL2 is installed (in PowerShell as Administrator)
+wsl --install
 
-# 啟動服務
-npm start
+# Enter Ubuntu/WSL environment
+wsl -d Ubuntu
+
+# Install Claude Code globally
+npm install -g @anthropic-ai/claude-code
+
+# Start Claude Code
+claude
 ```
 
-## 在支援 MCP 的客戶端中使用
+**macOS/Linux:**
+```bash
+# Install Claude Code globally
+npm install -g @anthropic-ai/claude-code
 
-蝦米任務管理器可以與任何支援 Model Context Protocol 的客戶端一起使用，例如 Cursor IDE。
+# Start Claude Code
+claude
+```
 
-### 在 Cursor IDE 中配置
+#### Installing Shrimp Task Manager
 
-1. 打開 Cursor IDE 的設定檔案（通常位於 `~/.cursor/settings.json`）
-2. 在 `mcpServers` 部分添加蝦米任務管理器的配置
+```bash
+# Clone the repository
+git clone https://github.com/cjo4m06/mcp-shrimp-task-manager.git
+cd mcp-shrimp-task-manager
+
+# Install dependencies
+npm install
+
+# Build the project
+npm run build
+```
+
+### Configure Claude Code
+
+Create a `.mcp.json` file in your project directory:
 
 ```json
 {
-  "mcpServers": [
-    {
-      "name": "蝦米任務管理器",
-      "id": "mcp-shrimp-task-manager",
+  "mcpServers": {
+    "shrimp-task-manager": {
       "command": "node",
-      "args": ["path/to/mcp-shrimp-task-manager/dist/index.js"],
-      "description": "任務規劃、拆分、執行和管理工具",
+      "args": ["/path/to/mcp-shrimp-task-manager/dist/index.js"],
       "env": {
-        "NODE_ENV": "production"
+        "DATA_DIR": "/path/to/your/shrimp_data",
+        "TEMPLATES_USE": "en",
+        "ENABLE_GUI": "false"
       }
     }
-  ]
+  }
 }
 ```
 
-請將 `path/to/mcp-shrimp-task-manager` 替換為實際的路徑。
-
-### 可用的工具
-
-在 Cursor IDE 中，配置完成後，您可以使用以下工具：
-
-- **開始規劃**：`plan_task`
-- **分析問題**：`analyze_task`
-- **反思構想**：`reflect_task`
-- **拆分任務**：`split_tasks`
-- **列出任務**：`list_tasks`
-- **執行任務**：`execute_task`
-- **檢驗任務**：`verify_task`
-- **完成任務**：`complete_task`
-
-### 使用範例
-
-在 Cursor IDE 中，您可以這樣使用蝦米任務管理器：
-
-```javascript
-// 開始規劃一個任務
-const planResult = await mcp.mcp_shrimp_task_manager.plan_task({
-  description: "開發一個用戶註冊系統",
-  requirements: "需要支持電子郵件和社交媒體登入",
-});
-
-// 拆分任務
-const splitResult = await mcp.mcp_shrimp_task_manager.split_tasks({
-  isOverwrite: false,
-  tasks: [
-    {
-      name: "設計用戶界面",
-      description: "創建用戶友好的註冊表單界面",
-      notes: "需要遵循品牌設計指南",
-    },
-    {
-      name: "實現後端API",
-      description: "開發用戶註冊和驗證API",
-      dependencies: ["設計用戶界面"], // 使用任務名稱引用依賴
-    },
-  ],
-});
-
-// 執行任務
-const executeResult = await mcp.mcp_shrimp_task_manager.execute_task({
-  taskId: "task-uuid-here", // 可從list_tasks獲取
-});
+Example configuration:
+```json
+{
+  "mcpServers": {
+    "shrimp-task-manager": {
+      "command": "node",
+      "args": ["/home/fire/claude/mcp-shrimp-task-manager/dist/index.js"],
+      "env": {
+        "DATA_DIR": "/home/fire/claude/project/shrimp_data",
+        "TEMPLATES_USE": "en",
+        "ENABLE_GUI": "false"
+      }
+    }
+  }
+}
 ```
 
-## 技術實現
+Then start Claude Code with your custom MCP configuration:
 
-- **Node.js**：JavaScript 運行時環境
-- **TypeScript**：提供類型安全
-- **MCP SDK**：用於與大型語言模型互動
-- **UUID**：生成唯一任務標識符
+```bash
+claude --dangerously-skip-permissions --mcp-config .mcp.json
+```
 
-## 許可協議
+<details>
+<summary><b>Other AI Clients</b></summary>
 
-MIT
+**Cline (VS Code Extension)**: A VS Code extension for AI-assisted coding. Add to VS Code settings.json under `cline.mcpServers`
+
+**Claude Desktop**: Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows)
+</details>
+
+### Start Using
+
+1. **Initialize your project**: `"init project rules"`
+2. **Plan a task**: `"plan task: implement user authentication"`
+3. **Execute tasks**: `"execute task"` or `"continuous mode"`
+
+## 💡 What is Shrimp?
+
+Shrimp Task Manager is an MCP (Model Context Protocol) server that transforms how AI agents approach software development. Instead of losing context or repeating work, Shrimp provides:
+
+- **🧠 Persistent Memory**: Tasks and progress persist across sessions
+- **📋 Structured Workflows**: Guided processes for planning, execution, and verification
+- **🔄 Smart Decomposition**: Automatically breaks complex tasks into manageable subtasks
+- **🎯 Context Preservation**: Never lose your place, even with token limits
+
+## ✨ Core Features
+
+### Task Management
+- **Intelligent Planning**: Deep analysis of requirements before implementation
+- **Task Decomposition**: Break down large projects into atomic, testable units
+- **Dependency Tracking**: Automatic management of task relationships
+- **Progress Monitoring**: Real-time status tracking and updates
+
+### Advanced Capabilities
+- **🔬 Research Mode**: Systematic exploration of technologies and solutions
+- **🤖 Agent System**: Assign specialized AI agents to specific tasks ([Learn more](docs/agents.md))
+- **📏 Project Rules**: Define and maintain coding standards across your project
+- **💾 Task Memory**: Automatic backup and restoration of task history
+
+### Web Interfaces
+
+#### 🖥️ Task Viewer
+Modern React interface for visual task management with drag-and-drop, real-time search, and multi-profile support.
+
+**Quick Setup:**
+```bash
+cd tools/task-viewer
+npm install
+npm run start:all
+# Access at http://localhost:5173
+```
+
+[📖 Full Task Viewer Documentation](tools/task-viewer/README.md)
+
+<kbd><img src="tools/task-viewer/task-viewer-interface.png" alt="Task Viewer Interface" width="600"/></kbd>
+
+#### 🌐 Web GUI
+Optional lightweight web interface for quick task overview.
+
+Enable in `.env`: `ENABLE_GUI=true`
+
+## 📚 Documentation
+
+- [📖 Full Documentation](docs/README.md)
+- [🛠️ Available Tools](docs/tools.md)
+- [🤖 Agent Management](docs/agents.md)
+- [🎨 Prompt Customization](docs/en/prompt-customization.md)
+- [🔧 API Reference](docs/api.md)
+
+## 🎯 Common Use Cases
+
+<details>
+<summary><b>Feature Development</b></summary>
+
+```
+Agent: "plan task: add user authentication with JWT"
+# Agent analyzes codebase, creates subtasks
+
+Agent: "execute task"
+# Implements authentication step by step
+```
+</details>
+
+<details>
+<summary><b>Bug Fixing</b></summary>
+
+```
+Agent: "plan task: fix memory leak in data processing"
+# Agent researches issue, creates fix plan
+
+Agent: "continuous mode"
+# Executes all fix tasks automatically
+```
+</details>
+
+<details>
+<summary><b>Research & Learning</b></summary>
+
+```
+Agent: "research: compare React vs Vue for this project"
+# Systematic analysis with pros/cons
+
+Agent: "plan task: migrate component to chosen framework"
+# Creates migration plan based on research
+```
+</details>
+
+## 🛠️ Configuration
+
+### Environment Variables
+
+Create a `.env` file:
+
+```bash
+# Required
+DATA_DIR=/path/to/data/storage
+
+# Optional
+ENABLE_GUI=true          # Enable web GUI
+WEB_PORT=3000           # Custom web port
+PROMPT_LANGUAGE=en      # Prompt language (en, zh, etc.)
+```
+
+### Available Commands
+
+| Command | Description |
+|---------|-------------|
+| `init project rules` | Initialize project standards |
+| `plan task [description]` | Create a task plan |
+| `execute task [id]` | Execute specific task |
+| `continuous mode` | Execute all tasks sequentially |
+| `list tasks` | Show all tasks |
+| `research [topic]` | Enter research mode |
+| `reflect task [id]` | Review and improve task |
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🌟 Credits
+
+Created by [cjo4m06](https://github.com/cjo4m06) and maintained by the community.
+
+---
+
+<p align="center">
+  <a href="https://github.com/cjo4m06/mcp-shrimp-task-manager">GitHub</a> •
+  <a href="https://github.com/cjo4m06/mcp-shrimp-task-manager/issues">Issues</a> •
+  <a href="https://github.com/cjo4m06/mcp-shrimp-task-manager/discussions">Discussions</a>
+</p>

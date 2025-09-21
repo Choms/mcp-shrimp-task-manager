@@ -1,5 +1,5 @@
 # Node.js 相關
-node_modules/
+#node_modules/
 npm-debug.log
 yarn-debug.log
 yarn-error.log
@@ -7,7 +7,7 @@ yarn-error.log
 .yarn-integrity
 
 # TypeScript 編譯輸出
-dist/
+#dist/
 build/
 *.tsbuildinfo
 
@@ -51,7 +51,22 @@ coverage/
 # 資料檔案
 *.sqlite
 data/*.json
-!data/example.json
+data/*/*.json
+data/*
 
 # Cursor AI 生成的暫存檔案
-.cursor/tmp/ 
+.cursor/tmp/
+
+# Claude and MCP files
+.claude/
+.mcp.json
+
+# Audio files
+*.wav 
+
+# Screenshots folder
+Screenshots/
+/Screenshots
+
+# Task viewer history and agents
+tools/task-viewer/history-and-agents/
